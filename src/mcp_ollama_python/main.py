@@ -4,9 +4,19 @@ Ollama MCP Server - Main entry point
 
 import asyncio
 import logging
+import os
 import signal
 import sys
 from typing import Optional
+
+# When running this file directly (python main.py), __package__ is None and
+# neither absolute nor relative imports will resolve.  Fix sys.path so the
+# absolute import always works regardless of how the script is invoked.
+if __package__ is None or __package__ == "":
+    # Add the 'src' directory (parent of this package dir) to sys.path
+    _src_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if _src_dir not in sys.path:
+        sys.path.insert(0, _src_dir)
 
 # Configure logging
 logging.basicConfig(
@@ -15,22 +25,21 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Use absolute imports so PyInstaller/standalone execution works even when __package__ is not set
-try:
-    from mcp_ollama_python.server import OllamaMCPServer
-    from mcp_ollama_python.ollama_client import OllamaClient
-except ImportError:
-    from .server import OllamaMCPServer
-    from .ollama_client import OllamaClient
+# Use absolute imports so PyInstaller/standalone execution works
+from mcp_ollama_python.server import OllamaMCPServer
+from mcp_ollama_python.ollama_client import OllamaClient
 
 try:
+    # pyrefly: ignore [missing-import]
     from mcp.server import Server
+    # pyrefly: ignore [missing-import]
     from mcp.types import (
         TextContent,
         Tool as MCPTool,
         Resource,
         Prompt,
     )
+    # pyrefly: ignore [missing-import]
     from mcp.server.stdio import stdio_server
 except ImportError as e:
     logger.error("MCP package import failed: %s", e)
