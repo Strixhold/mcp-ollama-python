@@ -30,16 +30,13 @@ from mcp_ollama_python.server import OllamaMCPServer
 from mcp_ollama_python.ollama_client import OllamaClient
 
 try:
-    # pyrefly: ignore [missing-import]
     from mcp.server import Server
-    # pyrefly: ignore [missing-import]
     from mcp.types import (
         TextContent,
         Tool as MCPTool,
         Resource,
         Prompt,
     )
-    # pyrefly: ignore [missing-import]
     from mcp.server.stdio import stdio_server
 except ImportError as e:
     logger.error("MCP package import failed: %s", e)
