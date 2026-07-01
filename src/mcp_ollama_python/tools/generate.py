@@ -97,6 +97,8 @@ tool_definition = ToolDefinition(
                     "top_p": {"type": "number", "minimum": 0, "maximum": 1},
                     "top_k": {"type": "integer", "minimum": 0},
                     "num_predict": {"type": "integer", "minimum": 1},
+                    "num_ctx": {"type": "integer", "minimum": 1},
+                    "num_gpu": {"type": "integer", "minimum": 0},
                     "repeat_penalty": {"type": "number", "minimum": 0},
                     "seed": {"type": "integer"},
                     "stop": {"type": "array", "items": {"type": "string"}},

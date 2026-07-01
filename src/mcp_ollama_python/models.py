@@ -44,6 +44,24 @@ class GenerationOptions(BaseModel):
         description="Maximum number of tokens to generate",
         gt=0,
     )
+    num_ctx: Optional[int] = Field(
+        None,
+        description=(
+            "Context window size in tokens. Larger values allow more input/history "
+            "but use more VRAM for the KV cache. Defaults to the model's configured "
+            "context length if unset."
+        ),
+        gt=0,
+    )
+    num_gpu: Optional[int] = Field(
+        None,
+        description=(
+            "Number of model layers to offload to the GPU. Set to a high value "
+            "(e.g. 999) to offload all layers, or 0 to force CPU-only. Defaults to "
+            "Ollama's automatic VRAM-based detection if unset."
+        ),
+        ge=0,
+    )
     repeat_penalty: Optional[float] = Field(
         None,
         description="Penalty for repeating tokens (1.0 = no penalty)",
