@@ -52,6 +52,8 @@ class TestGenerationOptions:
         assert options.top_p is None
         assert options.top_k is None
         assert options.num_predict is None
+        assert options.num_ctx is None
+        assert options.num_gpu is None
         assert options.repeat_penalty is None
         assert options.seed is None
         assert options.stop is None
@@ -63,6 +65,8 @@ class TestGenerationOptions:
             top_p=0.9,
             top_k=40,
             num_predict=100,
+            num_ctx=4096,
+            num_gpu=999,
             repeat_penalty=1.1,
             seed=42,
             stop=["END", "STOP"]
@@ -71,6 +75,8 @@ class TestGenerationOptions:
         assert options.top_p == 0.9
         assert options.top_k == 40
         assert options.num_predict == 100
+        assert options.num_ctx == 4096
+        assert options.num_gpu == 999
         assert options.repeat_penalty == 1.1
         assert options.seed == 42
         assert options.stop == ["END", "STOP"]
@@ -81,6 +87,11 @@ class TestGenerationOptions:
         assert options.temperature == 0.5
         assert options.top_k == 20
         assert options.top_p is None
+
+    def test_top_k_zero_disables_filtering(self):
+        """top_k=0 is valid and disables top-k filtering, matching the tool schemas' minimum: 0"""
+        options = GenerationOptions(top_k=0)
+        assert options.top_k == 0
 
     def test_model_dump(self):
         """Test model serialization"""
