@@ -36,8 +36,8 @@ class GenerationOptions(BaseModel):
     )
     top_k: Optional[int] = Field(
         None,
-        description="Limits vocabulary to top K tokens",
-        gt=0,
+        description="Limits vocabulary to top K tokens (0 disables top-k filtering)",
+        ge=0,
     )
     num_predict: Optional[int] = Field(
         None,

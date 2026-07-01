@@ -88,6 +88,11 @@ class TestGenerationOptions:
         assert options.top_k == 20
         assert options.top_p is None
 
+    def test_top_k_zero_disables_filtering(self):
+        """top_k=0 is valid and disables top-k filtering, matching the tool schemas' minimum: 0"""
+        options = GenerationOptions(top_k=0)
+        assert options.top_k == 0
+
     def test_model_dump(self):
         """Test model serialization"""
         options = GenerationOptions(temperature=0.7, top_p=0.9)
